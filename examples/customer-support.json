@@ -1,0 +1,25 @@
+{
+  "name": "customer-support-triage",
+  "task": "Classify a customer support ticket and produce a concise escalation plan.",
+  "context": "The user is a SaaS support analyst handling billing and account-access issues.",
+  "constraints": [
+    "Do not invent account state.",
+    "Ask for missing identifiers when required.",
+    "Use exactly the requested output schema."
+  ],
+  "output_schema": ["category", "urgency", "reason", "next_action"],
+  "examples": [
+    {
+      "input": "I was charged twice and cannot access my workspace.",
+      "ideal": "category: billing/access; urgency: high; reason: payment issue plus account lockout; next_action: verify invoice IDs and escalate to billing ops"
+    }
+  ],
+  "candidate_output": "category: billing/access\nurgency: high\nreason: duplicate charge and workspace lockout\nnext_action: ask for invoice IDs, verify account email, escalate to billing ops",
+  "pass_threshold": 0.8,
+  "rubric": [
+    { "name": "contains_exact_schema", "weight": 0.35, "must_include": ["category:", "urgency:", "reason:", "next_action:"] },
+    { "name": "mentions_escalation", "weight": 0.25, "must_include": ["escalate"] },
+    { "name": "avoids_unverified_claims", "weight": 0.25, "avoid": ["refund has been issued", "your account is fixed"] },
+    { "name": "asks_for_identifiers", "weight": 0.15, "must_include": ["invoice", "email"] }
+  ]
+}

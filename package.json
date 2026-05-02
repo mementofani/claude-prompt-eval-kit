@@ -1,0 +1,35 @@
+{
+  "name": "claude-prompt-eval-kit",
+  "version": "0.1.0",
+  "description": "A tiny open-source CLI for turning Claude prompts into testable specs with rubrics, XML structure, and regression checks.",
+  "type": "module",
+  "bin": {
+    "promptproof": "./bin/promptproof.mjs"
+  },
+  "scripts": {
+    "test": "node --test",
+    "score": "node bin/promptproof.mjs score examples/customer-support.json",
+    "compile": "node bin/promptproof.mjs compile examples/customer-support.json"
+  },
+  "keywords": [
+    "claude",
+    "prompt-engineering",
+    "prompt-evaluation",
+    "llm-evals",
+    "anthropic",
+    "developer-tools"
+  ],
+  "author": "Alihan Sencan <alihan.tr@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "files": [
+    "bin",
+    "lib",
+    "examples",
+    "prompts",
+    "README.md",
+    "LICENSE"
+  ]
+}

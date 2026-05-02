@@ -1,0 +1,25 @@
+{
+  "name": "legal-summary-extractor",
+  "task": "Extract key fields from a contract excerpt and summarize obligations without giving legal advice.",
+  "context": "The user is reviewing many contracts and needs consistent summaries with uncertainty clearly marked.",
+  "constraints": [
+    "Do not infer missing dates or parties.",
+    "Separate facts from risks.",
+    "Say 'not specified' when a field is absent."
+  ],
+  "output_schema": ["parties", "term", "payment", "obligations", "risks", "missing_information"],
+  "examples": [
+    {
+      "input": "Vendor will provide support for twelve months. Fees are due net 30.",
+      "ideal": "parties: not specified; term: twelve months; payment: net 30; obligations: vendor provides support; risks: parties missing; missing_information: party names, effective date"
+    }
+  ],
+  "candidate_output": "parties: not specified\nterm: twelve months\npayment: net 30\nobligations: vendor provides support\nrisks: parties and effective date are missing\nmissing_information: party names, effective date",
+  "pass_threshold": 0.8,
+  "rubric": [
+    { "name": "contains_exact_schema", "weight": 0.4, "must_include": ["parties:", "term:", "payment:", "obligations:", "risks:", "missing_information:"] },
+    { "name": "marks_absence", "weight": 0.25, "must_include": ["not specified", "missing"] },
+    { "name": "avoids_legal_advice", "weight": 0.2, "avoid": ["you should sue", "this is enforceable"] },
+    { "name": "keeps_fact_risk_separate", "weight": 0.15, "must_include": ["risks:"] }
+  ]
+}
